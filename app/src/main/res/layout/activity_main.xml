@@ -50,14 +50,13 @@
                 app:layout_constraintTop_toTopOf="parent" />
         </FrameLayout>
 
-        <com.toandv.aloalo.SwitchExt
-            android:id="@+id/sw"
+        <androidx.appcompat.widget.AppCompatSeekBar
+            android:id="@+id/seekBar"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:progressDrawable="@drawable/bg_progress"
             android:textIsSelectable="false"
-            android:thumb="@drawable/bg_thumb"
-            app:switchMinWidth="300dp"
-            app:track="@drawable/bg_progress" />
+            android:thumb="@drawable/bg_thumb" />
     </FrameLayout>
 </layout>

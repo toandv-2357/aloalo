@@ -1,12 +1,8 @@
 package com.toandv.aloalo
 
-import android.annotation.SuppressLint
-import android.content.Context
-import android.graphics.Canvas
 import android.os.Bundle
-import android.util.AttributeSet
+import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.SwitchCompat
 import androidx.databinding.DataBindingUtil
 import com.toandv.aloalo.databinding.ActivityMainBinding
 
@@ -18,36 +14,23 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
-        binding.sw.setOnSwipeListener { s1, s2 ->
-            binding.fl1.layoutParams.width = s1
-            binding.fl1.requestLayout()
-            binding.fl2.layoutParams.width = s2
-            binding.fl2.requestLayout()
+        binding.run {
+            seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+                override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
+                    fl1.layoutParams.width = seekBar.thumb.bounds.centerX() - seekBar.left
+                    fl2.layoutParams.width = seekBar.right - binding.seekBar.thumb.bounds.centerX()
+                    fl1.requestLayout()
+                    fl2.requestLayout()
+                }
+
+                override fun onStartTrackingTouch(p0: SeekBar?) {
+
+                }
+
+                override fun onStopTrackingTouch(p0: SeekBar?) {
+
+                }
+            })
         }
-    }
-}
-
-class SwitchExt @JvmOverloads constructor(
-    context: Context, attrs: AttributeSet? = null
-) : SwitchCompat(context, attrs) {
-
-    private var listener: OnSwipeListener? = null
-
-    override fun onDraw(canvas: Canvas?) {
-        super.onDraw(canvas)
-        val s1 = thumbDrawable.bounds.centerX() - left
-        val s2 = right - thumbDrawable.bounds.centerX()
-        listener?.onSwipe(s1, s2)
-    }
-
-    fun setOnSwipeListener(listener: OnSwipeListener) {
-        this.listener = listener
-    }
-
-    @SuppressLint("ClickableViewAccessibility")
-    override fun performClick() = false
-
-    fun interface OnSwipeListener {
-        fun onSwipe(s1: Int, s2: Int)
     }
 }
